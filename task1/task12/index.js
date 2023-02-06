@@ -21,4 +21,4 @@ const task12 = () => {
   }
 }
 
-task12()
+task12();
