@@ -20,6 +20,9 @@ module.exports = {
   devtool: 'inline-source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      'pg-native': 'noop2',
+    }
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
