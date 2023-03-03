@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { ValidatedRequest } from "express-joi-validation";
-import { UseReausetSchema, UserModel } from "../models";
+import { UserReausetSchema, UserModel } from "../models";
 import { UserService } from "../services";
 
 const userService = new UserService();
 
-export const addUser = (req: ValidatedRequest<UseReausetSchema>, res: Response) => {
+export const addUser = (req: ValidatedRequest<UserReausetSchema>, res: Response) => {
 	userService.add(req.body)
 		.then((user: UserModel) => res.json(user))
 		.catch((error: Error) => {
@@ -23,11 +23,11 @@ export const getUserById = (req: Request, res: Response) => {
 		.then((user: UserModel) => res.json(user))
 		.catch((error: Error) => res.status(400).send(error));
 };
-export const updateUser = (req: ValidatedRequest<UseReausetSchema>, res: Response) => {
+export const updateUser = (req: ValidatedRequest<UserReausetSchema>, res: Response) => {
 	userService.update(req.params.id, req.body)
 		.then((user) => res.json(user))
 		.catch((error: Error) => res.status(404).send(error));
 };
-export const deleteUser = (req: ValidatedRequest<UseReausetSchema>, res: Response) => {
+export const deleteUser = (req: ValidatedRequest<UserReausetSchema>, res: Response) => {
 	userService.delete(req.params.id).then((user: UserModel) => res.json(user));
 };

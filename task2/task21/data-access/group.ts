@@ -1,10 +1,9 @@
-import { DataTypes, Op, Options, Sequelize } from "sequelize";
-import { GroupModel } from "../models";
+import { GroupModel, UserGroupModel } from "../models";
 import { v4 as uuidv4 } from "uuid";
 
 export class GroupDacaAccessor {
-	private database: Sequelize;
 	private readonly groupModel = GroupModel;
+	private readonly userGroupModel = UserGroupModel;
 
 	add(group: GroupModel): Promise<GroupModel> {
 		const { name, permissions } = group;
@@ -12,20 +11,12 @@ export class GroupDacaAccessor {
 		return this.groupModel.create({
 			id: uuidv4(),
 			name,
-      permissions,
+			permissions,
 		});
 	}
 
-	get(login?: string, limit?: number): Promise<GroupModel[]> {
-		return this.groupModel.findAll({
-			where: {
-				isDeleted: false,
-				...(login && {login: {
-					[Op.like]: `%${login}%`,
-				}}),
-			},
-			limit,
-		});
+	get(): Promise<GroupModel[]> {
+		return this.groupModel.findAll();
 	}
 
 	getById(id: string): Promise<GroupModel> {
@@ -44,13 +35,19 @@ export class GroupDacaAccessor {
 		});
 	}
 
-	delete(id: string) {
-		return this.groupModel.update({
-			isDeleted: true
-		},
-		{
-			where: { id },
-			returning: true,
+	addUsersToGroup(groupId: string, usersId: string[]): Promise<number> {
+		return this.groupModel.sequelize.transaction((transaction) => {
+			return Promise
+				.all(usersId.map(
+					userId => this.userGroupModel.create({
+						groupId,
+						userId,
+					}, { transaction })))
+				.then(res => res.length);
 		});
+	}
+
+	delete(id: string) {
+		return this.groupModel.destroy({ where: { id } });
 	}
 }

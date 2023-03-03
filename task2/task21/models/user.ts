@@ -24,7 +24,7 @@ export const UserUpdateSchema = userPostSchema.fork(
 	(schema) => schema.optional(),
 );
 
-export interface UseReausetSchema extends ValidatedRequestSchema {
+export interface UserReausetSchema extends ValidatedRequestSchema {
   [ContainerTypes.Body]: UserModel;
 }
 

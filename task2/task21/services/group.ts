@@ -11,23 +11,26 @@ export class GroupService {
 	add(group: GroupModel): Promise<GroupModel> {
 		return this.dataAccessor.add(group);
 	}
-	get(login?: string, limit?: number): Promise<GroupModel[]>{
-		return this.dataAccessor.get(login, limit);
+	get(): Promise<GroupModel[]>{
+		return this.dataAccessor.get();
 	}
 
-	getById(id: string) {
+	getById(id: string): Promise<GroupModel> {
 		return this.dataAccessor.getById(id);
 	}
 
-	update(id: string, user: GroupModel) {
-		// const {login, password, age} = user;
-		// return this.dataAccessor.update(id,  new GroupModel({
-		// 	login, password, age,
-		// })).then(([, updatedUser]) => updatedUser[0]);
+	update(id: string, group: GroupModel): Promise<GroupModel> {
+		const {name, permissions} = group;
+		return this.dataAccessor.update(id,  new GroupModel({
+			name, permissions,
+		})).then(([, updatedGroup]) => updatedGroup[0]);
 	}
 
-	delete(id: string) {
-		return this.dataAccessor.delete(id)
-			.then(([, updatedUser]) => updatedUser[0]);
+	addUsersToGroup(groupId: string, usersIds: string[]): Promise<number> {
+		return this.dataAccessor.addUsersToGroup(groupId, usersIds);
+	}
+
+	delete(id: string): Promise<number> {
+		return this.dataAccessor.delete(id);
 	}
 }

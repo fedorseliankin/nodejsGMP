@@ -3,7 +3,7 @@ import { getGroups, addGroup, getGroupById, deleteGroup, updateGroup, addUsersTo
 
 export const groupRouter = Router()
 	.post("/", addGroup)
-	.post("/", addUsersToGroup)
+	.post("/addUsersToGroup", addUsersToGroup)
 	.get("/", getGroups)
 	.get("/:id", getGroupById)
 	.put("/:id", updateGroup)
