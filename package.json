@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack --config webpack.config.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --ext .ts --fix --ignore-path .gitignore",
+    "lint:fix": "eslint . --fix",
     "task11": "npm run build && nodemon --exec node_modules/.bin/babel-node dist/task11.js",
     "task12": "npm run build && nodemon --exec node_modules/.bin/babel-node dist/task12.js",
     "task21": "npm run build && nodemon --exec node_modules/.bin/babel-node dist/task21.js"
