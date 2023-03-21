@@ -1,14 +1,18 @@
 import http from "http";
 import express from "express";
 import { userRouter,  groupRouter } from "./routes";
-import { internalServerErrorHandler, logger, myLogger } from "./middleware";
+import { checkAuthToken, internalServerErrorHandler, logger, myLogger } from "./middleware";
+import { loginRouter } from "./routes/login";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(myLogger);
 
-app.use("/users", userRouter);
-app.use("/groups", groupRouter);
+app.use("/login", loginRouter);
+app.use("/users", checkAuthToken, userRouter);
+app.use("/groups", checkAuthToken, groupRouter);
 
 app.use("/", function(_, res) {
 	res.send("node-ex-api works :-)");
