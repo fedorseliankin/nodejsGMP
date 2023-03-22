@@ -1,9 +1,13 @@
 import { Op } from "sequelize";
-import { UserModel } from "../models";
+import { UserModel, initModels } from "../models";
 import { v4 as uuidv4 } from "uuid";
+import {startConnection} from "../connection";
 
-export class UserDacaAccessor {
+export class UserDataAccessor {
 	private readonly userModel = UserModel;
+	constructor() {
+		initModels(startConnection());
+	}
 
 	add(user: UserModel): Promise<UserModel> {
 		const { login, password, age, isDeleted = false } = user;

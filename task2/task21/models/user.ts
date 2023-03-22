@@ -1,7 +1,6 @@
-import Joi from "joi";
+import * as Joi from "joi";
 import { ValidatedRequestSchema, ContainerTypes } from "express-joi-validation";
-import { DataTypes, Model } from "sequelize";
-import { connection } from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 export class UserModel extends Model {
 	id?: string;
@@ -28,7 +27,7 @@ export interface UserReausetSchema extends ValidatedRequestSchema {
   [ContainerTypes.Body]: UserModel;
 }
 
-UserModel.init({
+export const initUserModel = (connectionDb: Sequelize ) => UserModel.init({
 	id: {
 		type: DataTypes.UUID,
 		primaryKey: true,
@@ -41,6 +40,6 @@ UserModel.init({
 		defaultValue: false,
 	},
 }, {
-	sequelize: connection,
+	sequelize: connectionDb,
 	tableName: "users",
 }).sync();

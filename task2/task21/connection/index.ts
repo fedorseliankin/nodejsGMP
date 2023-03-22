@@ -1,9 +1,12 @@
-import { Sequelize } from "sequelize";
-import { defaultConfig } from "../configs";
+import { Dialect, Sequelize } from "sequelize";
+import pg from "pg";
 
-const connection = new Sequelize(defaultConfig);
-connection.authenticate()
-	.then(() => console.log("Database connection established"))
-	.catch((error) => console.log(`Connection failed: ${error}`));
-
-export { connection };
+export const startConnection = () => {
+	const connection = new Sequelize(process.env.CONNECTION_STRING, {
+		dialect: "postgres" as Dialect,
+		dialectModule: pg,});
+	connection.authenticate()
+		.then(() => console.log("Database connection established"))
+		.catch((error) => console.log(`Connection failed: ${error}`));
+	return connection;
+};

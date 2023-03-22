@@ -1,10 +1,10 @@
 import { GroupModel } from "../models";
-import { GroupDacaAccessor } from "../data-access";
+import { GroupDataAccessor } from "../data-access";
 
 
 export class GroupService {
-	private dataAccessor: GroupDacaAccessor;
-	constructor(dataAccessor: GroupDacaAccessor = new GroupDacaAccessor()) {
+	private dataAccessor: GroupDataAccessor;
+	constructor(dataAccessor: GroupDataAccessor = new GroupDataAccessor()) {
 		this.dataAccessor = dataAccessor;
 	}
 
@@ -19,11 +19,8 @@ export class GroupService {
 		return this.dataAccessor.getById(id);
 	}
 
-	update(id: string, group: GroupModel): Promise<GroupModel> {
-		const {name, permissions} = group;
-		return this.dataAccessor.update(id,  new GroupModel({
-			name, permissions,
-		})).then(([, updatedGroup]) => updatedGroup[0]);
+	update(id: string, group: GroupModel) {
+		return this.dataAccessor.update(id,  group);
 	}
 
 	addUsersToGroup(groupId: string, usersIds: string[]): Promise<number> {

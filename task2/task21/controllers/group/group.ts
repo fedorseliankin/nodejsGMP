@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { GroupModel } from "../models";
-import { GroupService } from "../services";
+import { GroupModel } from "../../models";
+import { GroupService } from "../../services";
 
 const groupService = new GroupService();
 
@@ -28,7 +28,7 @@ export const getGroupById = (req: Request, res: Response) => {
 };
 export const updateGroup = (req: Request, res: Response) => {
 	groupService.update(req.params.id, req.body)
-		.then((group) => res.json(group))
+		.then(([_, groups]) => res.json(groups[0]))
 		.catch((error: Error) => res.status(404).send(error));
 };
 export const deleteGroup = (req: Request, res: Response) => {

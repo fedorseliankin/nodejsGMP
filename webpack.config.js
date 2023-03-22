@@ -1,5 +1,4 @@
 const path = require("path");
-
 module.exports = {
 	entry: {
 		task11: "./task1/task11/index.ts", 
