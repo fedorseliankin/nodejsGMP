@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ValidatedRequest } from "express-joi-validation";
-import { UserReausetSchema, UserModel } from "../models";
-import { UserService } from "../services";
+import { UserReausetSchema, UserModel } from "../../models";
+import {UserService} from "../../services";
 
 const userService = new UserService();
 
@@ -25,9 +25,9 @@ export const getUserById = (req: Request, res: Response) => {
 };
 export const updateUser = (req: ValidatedRequest<UserReausetSchema>, res: Response) => {
 	userService.update(req.params.id, req.body)
-		.then((user) => res.json(user))
+		.then(([_, users]) => res.json(users[0]))
 		.catch((error: Error) => res.status(404).send(error));
 };
 export const deleteUser = (req: ValidatedRequest<UserReausetSchema>, res: Response) => {
-	userService.delete(req.params.id).then((user: UserModel) => res.json(user));
+	userService.delete(req.params.id).then(([_, users]) => res.json(users[0]));
 };

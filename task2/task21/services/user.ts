@@ -1,10 +1,10 @@
 import { UserModel } from "../models";
-import { UserDacaAccessor } from "../data-access";
+import { UserDataAccessor } from "../data-access";
 
 
 export class UserService {
-	private dataAccessor: UserDacaAccessor;
-	constructor(dataAccessor: UserDacaAccessor = new UserDacaAccessor()) {
+	private dataAccessor: UserDataAccessor;
+	constructor(dataAccessor: UserDataAccessor = new UserDataAccessor()) {
 		this.dataAccessor = dataAccessor;
 	}
 
@@ -21,13 +21,12 @@ export class UserService {
 
 	update(id: string, user: UserModel) {
 		const {login, password, age} = user;
-		return this.dataAccessor.update(id,  new UserModel({
+		return this.dataAccessor.update(id, {
 			login, password, age,
-		})).then(([, updatedUser]) => updatedUser[0]);
+		} as UserModel);
 	}
 
 	delete(id: string) {
-		return this.dataAccessor.delete(id)
-			.then(([, updatedUser]) => updatedUser[0]);
+		return this.dataAccessor.delete(id);
 	}
 }

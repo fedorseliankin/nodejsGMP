@@ -8,7 +8,12 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@services" : [ "task2/task21/services" ],
+      "@models" : [ "task2/task21/models"],
+    }
   },
   "include": ["./task1", "./task2"]
 }

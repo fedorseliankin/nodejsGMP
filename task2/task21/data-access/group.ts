@@ -1,9 +1,13 @@
-import { GroupModel, UserGroupModel } from "../models";
+import { GroupModel, initModels, UserGroupModel } from "../models";
 import { v4 as uuidv4 } from "uuid";
+import {startConnection} from "../connection";
 
-export class GroupDacaAccessor {
+export class GroupDataAccessor {
 	private readonly groupModel = GroupModel;
 	private readonly userGroupModel = UserGroupModel;
+	constructor() {
+		initModels(startConnection());
+	}
 
 	add(group: GroupModel): Promise<GroupModel> {
 		const { name, permissions } = group;
